@@ -31,7 +31,7 @@ I like interfaces that make the next step obvious and details that serve a purpo
 
 ---
 
-<img src="assets/approach.svg?v=github-dark-4" width="100%" alt="How I work: understand the problem, reuse what works, prototype and refine. Interests: useful software and physical products. Direction: independent product development. Full text below." />
+<img src="assets/approach.svg?v=danger-labs-5" width="100%" alt="How I work: understand the problem, reuse what works, prototype and refine. Interests: useful software and physical products. Direction: independent product development. Full text below." />
 
 <details>
 <summary>Read at your own pace</summary>
