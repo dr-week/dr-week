@@ -10,9 +10,9 @@
   </style>
   <rect width="1000" height="360" fill="#171817"/>
   <path d="M44 46H956M44 314H956" stroke="#393b36"/>
-  <text x="40" y="170" font-family="Georgia, 'Times New Roman', serif" font-size="68" fill="#f1ede2">DISHANT</text>
-  <text x="40" y="241" font-family="Georgia, 'Times New Roman', serif" font-size="68" fill="#f1ede2">NAIK<tspan fill="#da9671">.</tspan></text>
-  <text x="44" y="286" font-family="Arial, sans-serif" font-size="20" fill="#c1c0b5">Computer Engineer + Designer</text>
+  <text x="40" y="143" font-family="Georgia, 'Times New Roman', serif" font-size="68" fill="#f1ede2">DISHANT</text>
+  <text x="40" y="214" font-family="Georgia, 'Times New Roman', serif" font-size="68" fill="#f1ede2">NAIK<tspan fill="#da9671">.</tspan></text>
+  <text x="44" y="268" font-family="Arial, sans-serif" font-size="20" fill="#c1c0b5">Computer Engineer + Designer</text>
   <g transform="translate(720 104)" fill="none" stroke-width="1.5">
     <path d="M-24 0H194M-24 152H194M0-22V176M170-22V176" stroke="#3c3e37" stroke-dasharray="3 5"/>
     <rect class="form" width="170" height="152" rx="32" stroke="#da9671"/>
