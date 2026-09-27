@@ -2,9 +2,11 @@
 
 ### About
 
-I've worked in graphic, product, and industrial design for over five years. I also build software, interfaces, and AI tools.
+I'm a computer engineer with over five years of experience in graphic, product, and industrial design.
 
-<sub>My company · <strong>Ginger.DVR</strong></sub>
+I design interfaces and build tools for design, automation, and everyday tasks. My company is **Ginger.DVR**.
+
+I'm now focused on developing independent software products and strengthening the engineering skills behind them.
 
 <br />
 
@@ -21,26 +23,20 @@ I've worked in graphic, product, and industrial design for over five years. I al
 
 <br />
 
-### Selected work
+### Projects
 
 **[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**
 
-A browser CAD tool for custom phone cases and 3D printing.
+Design custom phone cases in the browser for 3D printing.
 
 **[Code to Design](https://github.com/dr-week/Code-To-Figma-Converter)**
 
-Converts Vue interfaces into editable OpenPencil and Figma layers.
+Turn Vue interfaces into editable design layers in OpenPencil and Figma.
 
 **[NOCUT](https://github.com/dr-week/no-cut-editor)**
 
-An automated video editor with social media templates. In beta.
-
-<br />
-
-### Looking ahead
-
-I want to develop my own products and get better at the engineering needed to maintain them.
+Automate video editing with templates for social media. Currently in beta.
 
 ---
 
-<a href="https://github.com/dr-week"><img src="assets/github.svg" width="18" height="18" alt="" /></a>&nbsp; [Explore my work](https://github.com/dr-week?tab=repositories)
+<a href="https://github.com/dr-week"><img src="assets/github.svg" width="18" height="18" alt="" /></a>&nbsp; [All repositories](https://github.com/dr-week?tab=repositories)
