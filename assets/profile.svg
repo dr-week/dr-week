@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">DISHANT NAIK</title>
+  <desc id="desc">Computer Engineer + Designer. Charcoal panel with an abstract geometric monogram.</desc>
+  <style>
+    .pulse { animation: breathe 7s ease-in-out infinite; }
+    @keyframes breathe { 0%, 100% { opacity: .35; } 50% { opacity: .9; } }
+    @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+  </style>
+  <rect width="1200" height="360" rx="4" fill="#111715"/>
+  <path d="M48 48H1152" stroke="#33413b"/>
+  <text x="48" y="85" fill="#9aaa9f" font-family="Consolas, monospace" font-size="13" letter-spacing="3">ENGINEERING / DESIGN</text>
+  <text x="44" y="196" fill="#f1f0e8" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" letter-spacing="-3">DISHANT NAIK</text>
+  <text x="48" y="246" fill="#b5c0b9" font-family="Arial, Helvetica, sans-serif" font-size="24">Computer Engineer + Designer</text>
+  <g transform="translate(1010 122)" fill="none" stroke="#aac0ad" stroke-width="1.5">
+    <path d="M0 0H46A58 58 0 0 1 46 116H0Z"/>
+    <path d="M22 116V0L104 116V0" class="pulse"/>
+  </g>
+  <path d="M48 312H1152" stroke="#33413b"/>
+  <path d="M48 312H136" stroke="#aac0ad" stroke-width="2" class="pulse"/>
+</svg>
