@@ -2,7 +2,7 @@
 
 <br />
 
-I'm Dishant. A computer engineer who has spent over five years working in graphic, product, and industrial design.
+I'm Dishant, a computer engineer with over five years of experience in graphic, product, and industrial design.
 
 These days, I also write software: design tools, AI experiments, and automation. I enjoy working on both the interface and what happens behind it.
 
@@ -27,13 +27,15 @@ These days, I also write software: design tools, AI experiments, and automation.
 
 #### What I'm looking for
 
-Problems where my design experience and engineering background can both be useful. A clear purpose, room to experiment, and something worth making.
+Practical problems where design and engineering meet, from everyday workflows to physical products.
+
+#### How I work
+
+Research first. Reuse open-source tools where they fit. Prototype, test, and simplify before building further.
 
 #### Where I'm headed
 
-Independent product development. I want to take more of my ideas beyond prototypes and build software people can rely on.
-
-That means getting better at the engineering, testing, and maintenance that continue after the interface is finished.
+I want to build independent products, both digital and physical. I'm deepening my engineering skills and choosing which ideas deserve sustained work.
 
 ---
 
