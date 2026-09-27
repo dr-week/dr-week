@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
+<title id="title">How I work and what comes next</title>
+<desc id="desc">Five short statements change every three seconds. Full text is available below the image.</desc>
+<defs>
+  <pattern id="paper" width="13" height="17" patternUnits="userSpaceOnUse">
+    <path d="M2 3h2M9 12h1" stroke="#887c68" stroke-opacity=".12" stroke-width=".6"/>
+  </pattern>
+</defs>
+<style>
+  .slide { opacity:0; animation:page 15s linear infinite; }
+  .s2 { animation-delay:3s; } .s3 { animation-delay:6s; }
+  .s4 { animation-delay:9s; } .s5 { animation-delay:12s; }
+  @keyframes page { 0%,18% { opacity:1; } 20%,100% { opacity:0; } }
+  .label { font:13px Arial,sans-serif; letter-spacing:2px; fill:#62594e; }
+  .sentence { font:32px Georgia,serif; fill:#242823; }
+  .number { font:13px Consolas,monospace; fill:#a74832; }
+  @media(prefers-reduced-motion:reduce) { .slide { animation:none; } .s1 { opacity:1; } }
+</style>
+<rect width="720" height="320" fill="#eee9dd"/>
+<rect width="720" height="320" fill="url(#paper)"/>
+<path d="M36 48H684M36 268H684" stroke="#bdb5a5" stroke-width=".8"/>
+<path d="M36 48H80" stroke="#a74832" stroke-width="2"/>
+<g class="slide s1">
+  <text x="36" y="91" class="label">HOW I WORK</text><text x="646" y="91" class="number">01</text>
+  <text x="36" y="158" class="sentence">Understand the problem.</text>
+  <text x="36" y="202" class="sentence">Reuse what works.</text>
+</g>
+<g class="slide s2">
+  <text x="36" y="91" class="label">SOFTWARE</text><text x="646" y="91" class="number">02</text>
+  <text x="36" y="158" class="sentence">Make the tool earn</text>
+  <text x="36" y="202" class="sentence">its place in the workflow.</text>
+</g>
+<g class="slide s3">
+  <text x="36" y="91" class="label">PHYSICAL PRODUCTS</text><text x="646" y="91" class="number">03</text>
+  <text x="36" y="158" class="sentence">Prototype it. Use it.</text>
+  <text x="36" y="202" class="sentence">Find what needs to change.</text>
+</g>
+<g class="slide s4">
+  <text x="36" y="91" class="label">WHAT I LOOK FOR</text><text x="646" y="91" class="number">04</text>
+  <text x="36" y="158" class="sentence">A clear need.</text>
+  <text x="36" y="202" class="sentence">Room to experiment.</text>
+</g>
+<g class="slide s5">
+  <text x="36" y="91" class="label">WHERE I'M HEADED</text><text x="646" y="91" class="number">05</text>
+  <text x="36" y="158" class="sentence">Build my own products.</text>
+  <text x="36" y="202" class="sentence">Stay for the maintenance.</text>
+</g>
+<text x="36" y="295" class="label" font-size="11">DISHANT NAIK</text>
+<circle cx="676" cy="291" r="4" fill="#a74832"/>
+</svg>

@@ -31,6 +31,11 @@ I like interfaces that make the next step obvious and details that serve a purpo
 
 ---
 
+<img src="assets/approach.svg" width="100%" alt="How I work: understand the problem, reuse what works, prototype and refine. Interests: useful software and physical products. Direction: independent product development. Full text below." />
+
+<details>
+<summary>Read at your own pace</summary>
+
 ### How I work
 
 **Research → Reuse → Prototype → Test → Simplify**
@@ -66,6 +71,8 @@ Problems where my design experience and engineering background can both be usefu
 I want to develop and maintain my own digital and physical products, from the first design decisions through everyday use.
 
 Right now, that means stronger engineering, better testing, and choosing which ideas deserve sustained attention.
+
+</details>
 
 <br />
 
