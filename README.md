@@ -2,9 +2,7 @@
 
 ### About
 
-I've spent over five years in graphic and product design, including industrial design. Today, I bring that experience to software and AI tools.
-
-I like things that work as well as they look. A surprisingly negotiable requirement.
+I've worked in graphic, product, and industrial design for over five years. I also build software, interfaces, and AI tools.
 
 <sub>My company · <strong>Ginger.DVR</strong></sub>
 
@@ -25,20 +23,23 @@ I like things that work as well as they look. A surprisingly negotiable requirem
 
 ### Selected work
 
-**[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**  
+**[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**
+
 A browser CAD tool for custom phone cases and 3D printing.
 
-**[Code to Design](https://github.com/dr-week/Code-To-Figma-Converter)**  
+**[Code to Design](https://github.com/dr-week/Code-To-Figma-Converter)**
+
 Converts Vue interfaces into editable OpenPencil and Figma layers.
 
-**[NOCUT](https://github.com/dr-week/no-cut-editor)**  
+**[NOCUT](https://github.com/dr-week/no-cut-editor)**
+
 An automated video editor with social media templates. In beta.
 
 <br />
 
-### What comes next
+### Looking ahead
 
-I'm working toward independent product development and strengthening my engineering skills.
+I want to develop my own products and get better at the engineering needed to maintain them.
 
 ---
 
