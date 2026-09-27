@@ -18,14 +18,7 @@ I like interfaces that make the next step obvious and details that serve a purpo
 
 ### Technologies in my projects
 
-<p>
-  <img src="https://skillicons.dev/icons?i=ts&amp;theme=dark" width="36" height="36" alt="TypeScript" title="TypeScript" />&nbsp;
-  <img src="https://skillicons.dev/icons?i=js&amp;theme=dark" width="36" height="36" alt="JavaScript" title="JavaScript" />&nbsp;
-  <img src="https://skillicons.dev/icons?i=vue&amp;theme=dark" width="36" height="36" alt="Vue" title="Vue" />&nbsp;
-  <img src="https://skillicons.dev/icons?i=py&amp;theme=dark" width="36" height="36" alt="Python" title="Python" />&nbsp;
-  <img src="https://skillicons.dev/icons?i=rust&amp;theme=dark" width="36" height="36" alt="Rust" title="Rust" />&nbsp;
-  <img src="https://skillicons.dev/icons?i=git&amp;theme=dark" width="36" height="36" alt="Git" title="Git" />
-</p>
+<img src="assets/stack-snake.svg?v=1" width="100%" alt="Animated snake collecting TypeScript, JavaScript, Vue, Python, Rust, Git, React, Three.js, Vite, Node.js, HTML and CSS logos." />
 
 <br />
 
