@@ -4,8 +4,8 @@
 
 *The interface should not require a guided tour.*
 
-I design interfaces and build the systems behind them.
-My work spans software products, AI tools, and experiments in creative technology.
+I'm a computer engineer with over five years of experience in craft and industrial design.
+I bring that experience to software, interfaces, and AI tools.
 
 <sub>Building at <strong>Ginger.DVR</strong>.</sub>
 
