@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
 <title id="title">How I work and what comes next</title>
-<desc id="desc">Five short statements change every three seconds. Full text is available below the image.</desc>
+<desc id="desc">A rounded charcoal panel with a gently floating sketchbook illustration. Five short statements change every three seconds. Full text is available below the image.</desc>
 <defs>
   <pattern id="paper" width="13" height="17" patternUnits="userSpaceOnUse">
     <path d="M2 3h2M9 12h1" stroke="#b8b6aa" stroke-opacity=".06" stroke-width=".6"/>
@@ -14,12 +14,29 @@
   .label { font:13px Arial,sans-serif; letter-spacing:2px; fill:#b8b6aa; }
   .sentence { font:32px Georgia,serif; fill:#f1ede2; }
   .number { font:13px Consolas,monospace; fill:#da9671; }
-  @media(prefers-reduced-motion:reduce) { .slide { animation:none; } .s1 { opacity:1; } }
+  .sketch { animation:float 7s ease-in-out infinite; }
+  .pencil { animation:tilt 7s ease-in-out infinite; transform-origin:630px 178px; }
+  @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
+  @keyframes tilt { 0%,100% { transform:rotate(-3deg); } 50% { transform:rotate(3deg); } }
+  @media(prefers-reduced-motion:reduce) { .slide,.sketch,.pencil { animation:none; } .s1 { opacity:1; } }
 </style>
-<rect width="720" height="320" fill="#171817"/>
-<rect width="720" height="320" fill="url(#paper)"/>
+<rect x=".5" y=".5" width="719" height="319" rx="24" fill="#171817" stroke="#30332e"/>
+<rect x="1" y="1" width="718" height="318" rx="24" fill="url(#paper)"/>
 <path d="M36 48H684M36 268H684" stroke="#393b36" stroke-width=".8"/>
 <path d="M36 48H80" stroke="#da9671" stroke-width="2"/>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4" aria-hidden="true">
+  <ellipse cx="598" cy="232" rx="52" ry="5" fill="#0e100e" stroke="none"/>
+  <g class="sketch">
+    <rect x="553" y="123" width="88" height="95" rx="9" fill="#1c1f1b" stroke="#454b41" transform="rotate(8 597 170)"/>
+    <rect x="546" y="115" width="88" height="95" rx="9" fill="#20231e" stroke="#878e7c" transform="rotate(-5 590 162)"/>
+    <path d="M557 132L601 128M560 192L593 189" stroke="#676f60"/>
+    <path d="M565 155L589 141L611 153L587 168ZM565 155V179L587 192L611 178V153M587 168V192" stroke="#da9671"/>
+  </g>
+  <g class="pencil" stroke="#da9671">
+    <path d="M615 188L648 126Q651 121 655 124L658 126Q661 128 658 133L625 195L612 202Z" fill="#242822"/>
+    <path d="M615 188L625 195M647 131L655 136M620 191L650 136M612 202L617 198"/>
+  </g>
+</g>
 <g class="slide s1">
   <text x="36" y="91" class="label">HOW I WORK</text><text x="646" y="91" class="number">01</text>
   <text x="36" y="158" class="sentence">Understand the problem.</text>
