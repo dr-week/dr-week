@@ -6,8 +6,6 @@ I'm Dishant. A computer engineer who has spent over five years working in graphi
 
 These days, I also write software: design tools, AI experiments, and automation. I enjoy working on both the interface and what happens behind it.
 
-My next step is to build and maintain independent products, with more depth in the engineering along the way.
-
 <sub>My company: <strong>Ginger.DVR</strong></sub>
 
 <br />
@@ -27,19 +25,15 @@ My next step is to build and maintain independent products, with more depth in t
 
 ---
 
-#### Projects
+#### What I'm looking for
 
-**[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**
+Problems where my design experience and engineering background can both be useful. A clear purpose, room to experiment, and something worth making.
 
-A browser tool for designing custom, 3D-printable phone cases.
+#### Where I'm headed
 
-**[Code to Design](https://github.com/dr-week/Code-To-Figma-Converter)**
+Independent product development. I want to take more of my ideas beyond prototypes and build software people can rely on.
 
-A converter from Vue interfaces to editable OpenPencil and Figma layers.
-
-**[NOCUT](https://github.com/dr-week/no-cut-editor)**
-
-A video editor with automated editing and social media templates. In beta.
+That means getting better at the engineering, testing, and maintenance that continue after the interface is finished.
 
 ---
 
