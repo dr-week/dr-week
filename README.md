@@ -1,33 +1,32 @@
-<img src="assets/profile.svg" width="100%" alt="DISHANT NAIK — Computer Engineer + Designer" />
+<img src="assets/profile.svg" width="100%" alt="DISHANT NAIK. Computer Engineer + Designer. Animated drawing moves between an industrial form and an interface." />
+
+### A little about me
+
+I'm a computer engineer with over five years of work in craft and industrial design. These days, I also build software, interfaces, and AI tools.
+
+I care about how things look, how they work, and whether anyone needs them in the first place. Apparently, that last part is optional.
+
+<sub>My company · <strong>Ginger.DVR</strong></sub>
 
 <br />
 
-*The interface should not require a guided tour.*
+### Selected work
 
-I'm a computer engineer with over five years of experience in craft and industrial design.
-I bring that experience to software, interfaces, and AI tools.
+**[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**  
+A browser CAD tool for custom phone cases and 3D printing.
 
-<sub>Building at <strong>Ginger.DVR</strong>.</sub>
+**[Code to Design](https://github.com/dr-week/Code-To-Figma-Converter)**  
+Converts Vue interfaces into editable OpenPencil and Figma layers.
+
+**[NOCUT](https://github.com/dr-week/no-cut-editor)**  
+An automated video editor with social media templates. In beta.
 
 <br />
+
+### What comes next
+
+I'm building independent software products and deepening my engineering skills along the way. My approach is simple: understand the problem, reuse what works, test, and refine.
 
 ---
 
-#### 01 / PRACTICE
-
-Product design &nbsp; · &nbsp; Software engineering &nbsp; · &nbsp; Automation &nbsp; · &nbsp; 3D tools
-
-#### 02 / METHOD
-
-Understand the problem. Reuse what works. Build, test, refine.
-Complexity needs a reason to stay.
-
-#### 03 / NEXT
-
-Independent products. Deeper engineering. Software worth using every day.
-
-<br />
-
----
-
-<a href="https://github.com/dr-week"><img src="assets/github.svg" width="18" height="18" alt="GitHub" /></a>&nbsp; <a href="https://github.com/dr-week">dr-week</a>
+<a href="https://github.com/dr-week"><img src="assets/github.svg" width="18" height="18" alt="" /></a>&nbsp; [Explore my work](https://github.com/dr-week?tab=repositories)
