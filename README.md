@@ -4,11 +4,11 @@
 
 I'm Dishant, a **computer engineer** with over five years of experience in **graphic, product, and industrial design**.
 
-At **Danger.Labs**, I build design tools, AI experiments, and automation. Ideally, the software does the repetitive work. It has fewer weekend plans.
+I build software tools, explore AI and automation, and prototype physical products. I also run **Danger.Labs**.
 
 <br />
 
-### Technologies I use
+### Technologies in my projects
 
 <p>
   <img src="https://skillicons.dev/icons?i=ts&amp;theme=dark" width="36" height="36" alt="TypeScript" title="TypeScript" />&nbsp;
@@ -23,17 +23,13 @@ At **Danger.Labs**, I build design tools, AI experiments, and automation. Ideall
 
 ---
 
-#### What interests me
+### How I work
 
-Useful software and physical products. Problems that need solving before they need a pitch deck.
+I research the problem, reuse open-source tools where they fit, and test prototypes before building further. The wheel has had enough relaunches.
 
-#### How I build
+### What I'm working toward
 
-Research, prototype, test, simplify. I reuse open-source tools where they fit. The wheel has had enough relaunches.
-
-#### What's next
-
-Independent products and stronger engineering. Built to hold up after the demo, too.
+I want to develop and maintain my own digital and physical products. I'm deepening my engineering skills and choosing which ideas deserve sustained attention.
 
 <br />
 
