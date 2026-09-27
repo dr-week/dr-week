@@ -10,6 +10,19 @@ I like things that work as well as they look. A surprisingly negotiable requirem
 
 <br />
 
+### Tech stack
+
+<p>
+  <img src="https://skillicons.dev/icons?i=ts&amp;theme=dark" width="36" height="36" alt="TypeScript" title="TypeScript" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=js&amp;theme=dark" width="36" height="36" alt="JavaScript" title="JavaScript" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=vue&amp;theme=dark" width="36" height="36" alt="Vue" title="Vue" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=py&amp;theme=dark" width="36" height="36" alt="Python" title="Python" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=rust&amp;theme=dark" width="36" height="36" alt="Rust" title="Rust" />&nbsp;
+  <img src="https://skillicons.dev/icons?i=git&amp;theme=dark" width="36" height="36" alt="Git" title="Git" />
+</p>
+
+<br />
+
 ### Selected work
 
 **[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**  
