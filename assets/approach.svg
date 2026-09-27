@@ -21,7 +21,7 @@
   @media(prefers-reduced-motion:reduce) { .slide,.sketch,.pencil { animation:none; } .s1 { opacity:1; } }
 </style>
 <rect width="720" height="320" fill="#0d1117"/>
-<rect x=".5" y=".5" width="719" height="319" rx="24" fill="#0d1117" stroke="#30363d"/>
+<rect x=".5" y=".5" width="719" height="319" rx="24" fill="#0d1117" stroke="#0d1117"/>
 <rect x="1" y="1" width="718" height="318" rx="24" fill="url(#paper)"/>
 <path d="M36 48H684M36 268H684" stroke="#393b36" stroke-width=".8"/>
 <path d="M36 48H80" stroke="#da9671" stroke-width="2"/>
