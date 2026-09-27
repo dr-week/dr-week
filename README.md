@@ -4,9 +4,7 @@
 
 I'm Dishant, a **computer engineer** with over five years of experience in **graphic, product, and industrial design**.
 
-I build design tools, AI experiments, and automation. Ideally, the software does the repetitive work. It has fewer weekend plans.
-
-<sub>My company &nbsp;·&nbsp; <strong>Ginger.DVR</strong></sub>
+At **Danger.Labs**, I build design tools, AI experiments, and automation. Ideally, the software does the repetitive work. It has fewer weekend plans.
 
 <br />
 
@@ -25,23 +23,17 @@ I build design tools, AI experiments, and automation. Ideally, the software does
 
 ---
 
-### What I'm looking for
+#### What interests me
 
-Practical problems in software and physical products. Preferably ones that need solving before they need a pitch deck.
+Useful software and physical products. Problems that need solving before they need a pitch deck.
 
-<br />
+#### How I build
 
-### How I work
+Research, prototype, test, simplify. I reuse open-source tools where they fit. The wheel has had enough relaunches.
 
-**Research. Reuse. Prototype. Test. Simplify.**
+#### What's next
 
-I reuse open-source tools where they fit and build what's missing. The wheel has had enough relaunches.
-
-<br />
-
-### Where I'm headed
-
-I'm building toward independent digital and physical products, with deeper engineering skills to support them. Working beyond the demo seems like a reasonable ambition.
+Independent products and stronger engineering. Built to hold up after the demo, too.
 
 <br />
 
