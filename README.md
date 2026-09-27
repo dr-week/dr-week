@@ -1,16 +1,18 @@
 <img src="assets/profile.svg" width="100%" alt="DISHANT NAIK. Computer Engineer + Designer. Animated drawing moves between an industrial form and an interface." />
 
-### About
+<br />
 
-I'm a computer engineer with over five years of experience in graphic, product, and industrial design.
+I'm Dishant. A computer engineer who has spent over five years working in graphic, product, and industrial design.
 
-I design interfaces and build tools for design, automation, and everyday tasks. My company is **Ginger.DVR**.
+These days, I also write software: design tools, AI experiments, and automation. I enjoy working on both the interface and what happens behind it.
 
-I'm now focused on developing independent software products and strengthening the engineering skills behind them.
+My next step is to build and maintain independent products, with more depth in the engineering along the way.
+
+<sub>My company: <strong>Ginger.DVR</strong></sub>
 
 <br />
 
-### Tech stack
+#### Technologies I use
 
 <p>
   <img src="https://skillicons.dev/icons?i=ts&amp;theme=dark" width="36" height="36" alt="TypeScript" title="TypeScript" />&nbsp;
@@ -23,19 +25,21 @@ I'm now focused on developing independent software products and strengthening th
 
 <br />
 
-### Projects
+---
+
+#### Projects
 
 **[Phone Case Maker](https://github.com/dr-week/Phone-case-maker-2D-3D)**
 
-Design custom phone cases in the browser for 3D printing.
+A browser tool for designing custom, 3D-printable phone cases.
 
 **[Code to Design](https://github.com/dr-week/Code-To-Figma-Converter)**
 
-Turn Vue interfaces into editable design layers in OpenPencil and Figma.
+A converter from Vue interfaces to editable OpenPencil and Figma layers.
 
 **[NOCUT](https://github.com/dr-week/no-cut-editor)**
 
-Automate video editing with templates for social media. Currently in beta.
+A video editor with automated editing and social media templates. In beta.
 
 ---
 
