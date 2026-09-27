@@ -14,14 +14,20 @@
   .label { font:13px Arial,sans-serif; letter-spacing:2px; fill:#b8b6aa; }
   .sentence { font:32px Georgia,serif; fill:#f1ede2; }
   .number { font:13px Consolas,monospace; fill:#da9671; }
-  .progress { animation:progress 15s steps(1,end) infinite; }
+  .progress { animation:progress 15s cubic-bezier(.65,0,.35,1) infinite; }
   @keyframes progress {
-    0% { transform:translateX(0); }
-    20% { transform:translateX(151px); }
-    40% { transform:translateX(302px); }
-    60% { transform:translateX(453px); }
-    80% { transform:translateX(604px); }
-    100% { transform:translateX(0); }
+    0%,17% { transform:translateX(0); opacity:1; }
+    20% { opacity:.45; }
+    23%,37% { transform:translateX(151px); opacity:1; }
+    40% { opacity:.45; }
+    43%,57% { transform:translateX(302px); opacity:1; }
+    60% { opacity:.45; }
+    63%,77% { transform:translateX(453px); opacity:1; }
+    80% { opacity:.45; }
+    83%,94% { transform:translateX(604px); opacity:1; }
+    97% { transform:translateX(604px); opacity:0; }
+    97.01%,98% { transform:translateX(0); opacity:0; }
+    100% { transform:translateX(0); opacity:1; }
   }
   .sketch { animation:float 7s ease-in-out infinite; }
   .pencil { animation:tilt 7s ease-in-out infinite; transform-origin:630px 178px; }
