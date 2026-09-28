@@ -100,23 +100,21 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 {''.join(css)}
 .scene{{animation:scene {LOOP_SECONDS}s ease-in-out infinite}}
 .head{{animation:idle 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}}
-.eyes{{animation:blink 4.8s steps(1,end) infinite;transform-box:fill-box;transform-origin:center}}
 @keyframes idle{{0%,100%{{transform:translateY(0)}}50%{{transform:translateY(-1px)}}}}
-@keyframes blink{{0%,46%,49%,100%{{transform:scaleY(1)}}47%,48%{{transform:scaleY(.12)}}}}
 
 @keyframes scene{{0%,100%{{opacity:0}}4%{{opacity:1}}90%{{opacity:1}}96%{{opacity:0}}}}
 
 @media(prefers-reduced-motion:reduce){{.scene,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
 </style>
 <rect width="720" height="320" fill="#11120f"/>
-<defs><pattern id="grain" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M2 8h5m20 11h4M11 31h3" stroke="#d8d1bd" stroke-width=".5" opacity=".12"/><circle cx="17" cy="5" r=".5" fill="#d8d1bd" opacity=".18"/><circle cx="31" cy="29" r=".5" fill="#d8d1bd" opacity=".14"/></pattern></defs>
+<defs><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3f0e5" stop-opacity=".82"/><stop offset=".48" stop-color="#d7ded0" stop-opacity=".58"/><stop offset="1" stop-color="#aab8ac" stop-opacity=".72"/></linearGradient><filter id="head-shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset dy="1"/><feComponentTransfer><feFuncA type="linear" slope=".22"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter><pattern id="grain" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M2 8h5m20 11h4M11 31h3" stroke="#d8d1bd" stroke-width=".5" opacity=".12"/><circle cx="17" cy="5" r=".5" fill="#d8d1bd" opacity=".18"/><circle cx="31" cy="29" r=".5" fill="#d8d1bd" opacity=".14"/></pattern></defs>
 <rect width="720" height="320" fill="url(#grain)" opacity=".42"/>
 <path d="M48 64H672V160H48V256H672" fill="none" stroke="#33352d" stroke-width="1" stroke-dasharray="1 12"/>
 <path d="M40 32h20M40 32v20M680 32h-20M680 32v20M40 288h20M40 288v-20M680 288h-20M680 288v-20" fill="none" stroke="#777762" stroke-width="1" opacity=".65"/>
 <g class="scene">
 {''.join(food)}
 <g class="snake">{''.join(reversed(body))}
-<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><g class="head"><rect x="-17" y="-17" width="34" height="34" rx="7" fill="#d9d4bf" stroke="#f0ead7" stroke-width="1.5"/><g class="eyes" fill="#25271f"><rect x="-8" y="-5" width="4" height="5" rx="1"/><rect x="4" y="-5" width="4" height="5" rx="1"/></g><path d="M-4 7h8" stroke="#9b5847" stroke-width="1.5" stroke-linecap="round"/></g></g>
+<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><g class="head"><rect x="-17" y="-17" width="34" height="34" rx="7" fill="url(#glass)" stroke="#f0ead7" stroke-opacity=".9" stroke-width="1.2" filter="url(#head-shadow)"/><path d="M-12-11h24" stroke="#fff" stroke-opacity=".62" stroke-width="1"/><path d="M-12-7l8 2-1 2-8-1zm24 0-8 2 1 2 8-1z" fill="#302a28"/><path d="M-12-4l9 2-2 6-7-2zm24 0L3-2l2 6 7-2z" fill="#faf1dc"/><path d="M-7-2l4 1-1 4-3-1zm14 0L3-1l1 4 3-1z" fill="#a64f42"/><path d="M-7 8q7 3 14 0" fill="none" stroke="#75463e" stroke-width="1.3" stroke-linecap="round"/></g></g>
 </g></g>
 <g class="marquee"><path d="M286 142h148M286 180h148" stroke="#777762" stroke-width=".8" opacity=".8"/><text x="360" y="155" text-anchor="middle" fill="#a65d49" font-family="monospace" font-size="7" letter-spacing="2">TOOLS / PRACTICE / PLAY</text><text x="360" y="173" text-anchor="middle" fill="#e5dfcc" font-family="Georgia,serif" font-size="16" letter-spacing="2">I NEVER STOP</text><rect x="438" y="151" width="5" height="5" fill="#a65d49"/></g>
 </svg>'''
