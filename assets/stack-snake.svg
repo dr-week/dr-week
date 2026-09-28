@@ -28,7 +28,7 @@
 @keyframes lamp{0%,100%{opacity:.5}50%{opacity:1}}
 @keyframes message{0%,4%,29%,34%,100%{opacity:0}8%,26%{opacity:1}}
 @keyframes scene{0%,94%{opacity:1}98%{opacity:0}100%{opacity:1}}
-@media(prefers-reduced-motion:reduce){.water,.wake,.bob,.head,.collected,.food,.scene,.message,.lamp{animation:none!important}.food,.scene,.m0{opacity:1}.head,.collected{display:none}}
+@media(prefers-reduced-motion:reduce){.water,.wake,.bob,.head,.collected,.food,.scene,.message,.lamp{animation:none!important}.food,.scene,.m0{opacity:1}.head{transform:translate(32px,64px)}.collected{display:none}}
 </style>
 <rect width="720" height="320" fill="url(#sea-color)"/>
 <g class="water"><rect x="0" width="835" height="320" fill="url(#water-lines)"/></g>
