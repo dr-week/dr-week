@@ -59,7 +59,7 @@ for i, (name, slug, color) in enumerate(STACK):
     d = pickup_distance(i)
     x, y = point(d)
     at = d / ROUTE_LENGTH * MOVE_END
-    css.append(f'@keyframes food{i} {{0%,{at-0.35:.3f}%{{opacity:1}} {at:.3f}%,100%{{opacity:0}}}}')
+    css.append(f'@keyframes food{i} {{0%,{at-0.35:.3f}%{{opacity:1}} {at:.3f}%,100%{{opacity:1}}}}')
     food.append(f'<g class="food" style="animation:food{i} {LOOP_SECONDS}s linear infinite"><title>{name}</title><rect x="{x-20}" y="{y-20}" width="40" height="40" rx="12" fill="#161b22" stroke="#30363d"/><use href="#logo{i}" x="{x-12}" y="{y-12}" width="24" height="24" fill="#{color}"/></g>')
     reveal = max(0, at - 1.6)
     css.append(f'@keyframes reveal{i} {{0%,{reveal:.3f}%{{opacity:0}} {reveal+0.2:.3f}%,{MOVE_END}%{{opacity:1}} 100%{{opacity:0}}}}')
@@ -85,7 +85,7 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 {''.join(css)}
 .scene{{animation:scene {LOOP_SECONDS}s ease-in-out infinite}}
 .message{{opacity:0;animation:message {LOOP_SECONDS}s ease-in-out infinite}}
-@keyframes scene{{0%,92%{{opacity:1}}96%,99%{{opacity:0}}100%{{opacity:1}}}}
+@keyframes scene{{0%,100%{{opacity:0}}4%{{opacity:1}}90%{{opacity:1}}96%{{opacity:0}}}}
 @keyframes message{{0%,64%,100%{{opacity:0}}68%{{opacity:1}}88%{{opacity:1}}94%{{opacity:0}}}}
 @media(prefers-reduced-motion:reduce){{.scene,.message,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
 </style>
