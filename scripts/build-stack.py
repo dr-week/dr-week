@@ -12,33 +12,43 @@ STACK = [
     ('Vite', 'vite', 'AC83FF'), ('Node.js', 'nodedotjs', '5FA04E'),
     ('HTML', 'html5', 'E34F26'), ('CSS', 'css', 'B888F8'),
 ]
-# Hand-authored arcade route. Uneven timing and varied turns make pickups feel less linear.
+# Closed arcade maze. Last points carry the snake off-screen, then around the
+# perimeter to the same entry point, keeping every body segment on one route.
 ROUTE = [
-    (48, 64, 0), (144, 64, 5), (240, 64, 9), (240, 112, 12),
-    (384, 112, 17), (528, 112, 22), (528, 64, 25), (672, 64, 30),
-    (672, 160, 35), (576, 160, 39), (576, 208, 42), (384, 208, 48),
-    (384, 160, 51), (192, 160, 57), (48, 160, 62), (48, 256, 67),
-    (192, 256, 71), (192, 208, 74), (336, 208, 79), (480, 208, 83),
-    (480, 256, 86), (672, 256, 90), (752, 256, 94),
+    (48,64),(240,64),(240,112),(528,112),(528,64),(672,64),(672,160),
+    (576,160),(576,208),(384,208),(384,160),(192,160),(48,160),
+    (48,256),(192,256),(192,208),(336,208),(480,208),(480,256),(672,256),
+    (752,256),(752,304),(760,304),(760,16),(48,16),(48,64),
 ]
-PICKUPS = [5, 9, 17, 22, 30, 35, 39, 48, 57, 67, 79, 86]
-LOOP_END = 100
-MOVE_END = 94
-STEP = 2.6  # route percentage points between body segments
+PICKUPS = [1,2,3,4,5,6,7,8,9,10,11,12]
+LOOP_SECONDS = 26
+MOVE_END = 88
+STEP = 28  # pixels between body segments
 
 
-def point(progress):
-    """Interpolate closed route coordinates, including the off-screen exit."""
-    progress %= LOOP_END
-    for (x1, y1, t1), (x2, y2, t2) in zip(ROUTE, ROUTE[1:]):
-        if t1 <= progress <= t2:
-            ratio = (progress - t1) / (t2 - t1)
-            return x1 + (x2 - x1) * ratio, y1 + (y2 - y1) * ratio
-    # Last route section wraps from the off-screen exit to the initial entry.
-    x1, y1, t1 = ROUTE[-1]
-    x2, y2, t2 = ROUTE[0][0], ROUTE[0][1], LOOP_END
-    ratio = (progress - t1) / (t2 - t1)
-    return x1 + (x2 - x1) * ratio, y1 + (y2 - y1) * ratio
+def distances():
+    out = [0]
+    for (x1,y1),(x2,y2) in zip(ROUTE,ROUTE[1:]):
+        out.append(out[-1] + abs(x2-x1) + abs(y2-y1))
+    return out
+
+
+ROUTE_DISTANCES = distances()
+ROUTE_LENGTH = ROUTE_DISTANCES[-1]
+
+
+def point(distance):
+    distance %= ROUTE_LENGTH
+    for i, end in enumerate(ROUTE_DISTANCES[1:]):
+        if distance <= end:
+            (x1,y1),(x2,y2) = ROUTE[i],ROUTE[i+1]
+            ratio = (distance - ROUTE_DISTANCES[i]) / (end - ROUTE_DISTANCES[i])
+            return x1+(x2-x1)*ratio, y1+(y2-y1)*ratio
+    return ROUTE[0]
+
+
+def pickup_distance(index):
+    return ROUTE_DISTANCES[PICKUPS[index]]
 
 defs, css, food, body = [], [], [], []
 for i, (name, slug, color) in enumerate(STACK):
@@ -46,25 +56,24 @@ for i, (name, slug, color) in enumerate(STACK):
     root = ET.fromstring(source)
     paths = ''.join(f'<path d="{p.attrib["d"]}"/>' for p in root if p.tag.endswith('path'))
     defs.append(f'<symbol id="logo{i}" viewBox="0 0 24 24">{paths}</symbol>')
-    x, y = point(PICKUPS[i])
-    consumed = PICKUPS[i] / MOVE_END * MOVE_END
-    css.append(f'@keyframes food{i} {{0%,{consumed-0.35:.3f}%{{opacity:1}} {consumed:.3f}%,100%{{opacity:0}}}}')
-    food.append(f'<g class="food" style="animation:food{i} 26s linear infinite"><title>{name}</title><rect x="{x-20}" y="{y-20}" width="40" height="40" rx="12" fill="#161b22" stroke="#30363d"/><use href="#logo{i}" x="{x-12}" y="{y-12}" width="24" height="24" fill="#{color}"/></g>')
-    reveal = max(0, consumed - 1.5)
+    d = pickup_distance(i)
+    x, y = point(d)
+    at = d / ROUTE_LENGTH * MOVE_END
+    css.append(f'@keyframes food{i} {{0%,{at-0.35:.3f}%{{opacity:1}} {at:.3f}%,100%{{opacity:0}}}}')
+    food.append(f'<g class="food" style="animation:food{i} {LOOP_SECONDS}s linear infinite"><title>{name}</title><rect x="{x-20}" y="{y-20}" width="40" height="40" rx="12" fill="#161b22" stroke="#30363d"/><use href="#logo{i}" x="{x-12}" y="{y-12}" width="24" height="24" fill="#{color}"/></g>')
+    reveal = max(0, at - 1.6)
     css.append(f'@keyframes reveal{i} {{0%,{reveal:.3f}%{{opacity:0}} {reveal+0.2:.3f}%,{MOVE_END}%{{opacity:1}} 100%{{opacity:0}}}}')
-    body.append(f'<g style="animation:reveal{i} 26s linear infinite"><g class="segment" style="animation:move{i+1} 26s linear infinite"><circle r="19" fill="#253a36" stroke="#658c7b"/><use href="#logo{i}" x="-11" y="-11" width="22" height="22" fill="#{color}"/></g></g>')
+    body.append(f'<g style="animation:reveal{i} {LOOP_SECONDS}s linear infinite"><g class="segment" style="animation:move{i+1} {LOOP_SECONDS}s linear infinite"><circle r="19" fill="#253a36" stroke="#658c7b"/><use href="#logo{i}" x="-11" y="-11" width="22" height="22" fill="#{color}"/></g></g>')
 
-# Derive body keyframes from shared progress samples so each segment follows the head path.
+# Sample shared route distance. The common closed perimeter makes the loop seamless.
 for i in range(13):
     offset = i * STEP
-    times = {0, MOVE_END, *[t for _, _, t in ROUTE if t <= MOVE_END]}
-    times.update(range(0, MOVE_END, 1))
     frames = []
-    for progress in sorted(times):
-        x, y = point(progress - offset)
-        frames.append(f'{progress:.3f}%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
-    # Hold at the exit while the caption takes over the board.
-    frames.append('100%{transform:translate(752px,256px)}')
+    for pct in range(MOVE_END + 1):
+        x, y = point(pct / MOVE_END * ROUTE_LENGTH - offset)
+        frames.append(f'{pct}%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
+    x, y = point(-offset)
+    frames.append(f'100%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
     css.append(f'@keyframes move{i}{{{"".join(frames)}}}')
 
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
@@ -74,11 +83,11 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 <defs>{''.join(defs)}</defs>
 <style>
 {''.join(css)}
-.scene{{animation:scene 26s linear infinite}}
-.message{{opacity:0;animation:message 26s ease-in-out infinite}}
-@keyframes scene{{0%,94%{{opacity:1}}96%,99%{{opacity:0}}100%{{opacity:1}}}}
-@keyframes message{{0%,94%,100%{{opacity:0}}95%,98%{{opacity:1}}}}
-@media(prefers-reduced-motion:reduce){{.scene,.message,.food{{animation:none!important}}.snake{{display:none}}}}
+.scene{{animation:scene {LOOP_SECONDS}s linear infinite}}
+.message{{opacity:0;animation:message {LOOP_SECONDS}s linear infinite}}
+@keyframes scene{{0%,96%{{opacity:1}}99%,99.5%{{opacity:0}}100%{{opacity:1}}}}
+@keyframes message{{0%,96%,100%{{opacity:0}}97%,99%{{opacity:1}}}}
+@media(prefers-reduced-motion:reduce){{.scene,.message,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
 </style>
 <rect width="720" height="320" fill="#0d1117"/>
 <path d="M48 64H672V160H48V256H672" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="2 10"/>
@@ -87,10 +96,11 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 <text class="message" x="360" y="151" text-anchor="middle" fill="#f0c84b" font-family="monospace" font-size="12" letter-spacing="2">TECH I USE TO BUILD</text>
 <text class="message" x="360" y="174" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9" letter-spacing="1">SOFTWARE / DESIGN / PLAY</text>
 <g class="snake">{''.join(reversed(body))}
-<g style="animation:move0 26s linear infinite"><circle r="20" fill="#aac0ad"/><circle cx="-5" cy="-5" r="2.5" fill="#0d1117"/><circle cx="5" cy="-5" r="2.5" fill="#0d1117"/></g>
+<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><circle r="20" fill="#aac0ad"/><circle cx="-5" cy="-5" r="2.5" fill="#0d1117"/><circle cx="5" cy="-5" r="2.5" fill="#0d1117"/></g>
 </g></g>
 </svg>'''
 ET.fromstring(svg)
 (ROOT / 'assets' / 'stack-snake.svg').write_text(svg, encoding='utf-8')
 print('Generated stack-snake.svg with 12 logos and a 26-second loop.')
+
 
