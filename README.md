@@ -18,7 +18,7 @@ I like interfaces that make the next step obvious and details that serve a purpo
 
 ### Technologies in my projects
 
-<img src="assets/stack-snake.svg?v=4" width="100%" alt="Animated snake collecting TypeScript, JavaScript, Vue, Python, Rust, Git, React, Three.js, Vite, Node.js, HTML and CSS logos." />
+<img src="assets/stack-snake.svg?v=5" width="100%" alt="Animated snake collecting TypeScript, JavaScript, Vue, Python, Rust, Git, React, Three.js, Vite, Node.js, HTML and CSS logos." />
 
 <br />
 
