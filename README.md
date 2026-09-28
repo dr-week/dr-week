@@ -18,7 +18,7 @@ I like interfaces that make the next step obvious and details that serve a purpo
 
 ### Technologies in my projects
 
-<img src="assets/stack-snake.svg?v=6" width="100%" alt="Animated black cat police captain patrolling beside a cargo ship with LED messages and technology logos." />
+<img src="assets/stack-snake.svg?v=7" width="100%" alt="Top view of a cargo ship moving through dark water. A black cat police monster collects technology logos around the ship while container lights change messages." />
 
 <br />
 
