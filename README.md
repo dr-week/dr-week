@@ -1,4 +1,4 @@
-<img src="assets/profile.svg" width="100%" alt="DISHANT NAIK. Computer Engineer + Designer. Animated drawing moves between an industrial form and an interface." />
+<img src="assets/profile-banner.png" width="100%" alt="Dishant Naik, Computer Engineer and Designer. An illustrated dark landscape with copper accents." />
 
 <br />
 
