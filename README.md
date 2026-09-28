@@ -1,4 +1,4 @@
-<img src="assets/profile-banner.png" width="100%" alt="Dishant Naik, Computer Engineer and Designer. An illustrated dark landscape with copper accents." />
+<img src="assets/profile-banner-glare.svg?v=1" width="100%" alt="Dishant Naik, Computer Engineer and Designer. A dark illustrated landscape with a subtle glass reflection moving across it." />
 
 <br />
 
