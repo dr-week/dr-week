@@ -1,110 +1,133 @@
-"""Build the self-contained technology scene from the checked-in SVG logos."""
+"""Build the self-contained night-sea technology animation."""
+from math import hypot
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / 'assets' / 'stack-snake.svg'
 old = TARGET.read_text(encoding='utf-8')
-logos = old[old.index('<defs><symbol'):old.index('</defs>', old.index('<defs><symbol')) + len('</defs>')]
+logos = old[old.index('<defs><symbol'):old.index('</defs>', old.index('<defs><symbol')) + 7]
+cat_path = ET.parse(ROOT / 'assets' / 'cat-source.svg').getroot().find('{http://www.w3.org/2000/svg}path').attrib['d']
 names = ['TypeScript', 'JavaScript', 'Vue', 'Python', 'Rust', 'Git', 'React', 'Three.js', 'Vite', 'Node.js', 'HTML', 'CSS']
 colors = ['#3178c6','#f7df1e','#4fc08d','#77b5e8','#e7ad91','#f05032','#61dafb','#f1ede2','#ac83ff','#5fa04e','#e34f26','#b888f8']
-icons = []
-food_css = []
-badges = []
-for i, (name, color) in enumerate(zip(names, colors)):
-    x = 72 + (i % 6) * 112
-    y = 54 if i < 6 else 270
-    pickup = 5 + i * 8 if i < 6 else 55 + (11 - i) * 8
-    food_css.append(f'@keyframes eat{i}{{0%,{pickup - .1:.1f}%{{opacity:1}}{pickup:.1f}%,96%{{opacity:0}}100%{{opacity:1}}}}')
-    icons.append(f'<g class="food" style="animation:eat{i} 24s linear infinite"><title>{name}</title><circle cx="{x}" cy="{y}" r="19" fill="#161d24" stroke="#303b42"/><use href="#logo{i}" x="{x-11}" y="{y-11}" width="22" height="22" fill="{color}"/></g>')
-    badges.append(f'<use class="badge" style="animation:badge{i} 24s linear infinite" href="#logo{i}" x="{-24 + (i % 6) * 9}" y="{18 + (i // 6) * 10}" width="8" height="8" fill="{color}"/>')
-    food_css.append(f'@keyframes badge{i}{{0%,{pickup - .1:.1f}%{{opacity:0}}{pickup:.1f}%,96%{{opacity:1}}100%{{opacity:0}}}}')
+# A loose circuit around the hull. Each pickup lies on the cat's route.
+waypoints = [(32,64),(72,62),(169,48),(277,75),(387,54),(496,70),(620,51),(664,157),(620,265),(500,251),(378,274),(246,254),(111,270),(54,166),(32,64)]
+pickups = list(range(1,13))
+lengths = [hypot(x2-x1,y2-y1) for (x1,y1),(x2,y2) in zip(waypoints,waypoints[1:])]
+bounds = [0.0]
+for length in lengths: bounds.append(bounds[-1]+length)
+total = bounds[-1]
 
-messages = ['DESIGN / BUILD', 'RESEARCH / TEST', 'MAKE IT USEFUL']
-labels = ''.join(f'<text class="message m{i}" x="360" y="171" text-anchor="middle">{message}</text>' for i, message in enumerate(messages))
+def point(distance):
+    distance = max(0, min(total, distance))
+    for i in range(len(lengths)):
+        if distance <= bounds[i+1]:
+            t = (distance-bounds[i])/lengths[i]
+            x1,y1 = waypoints[i]
+            x2,y2 = waypoints[i+1]
+            return x1+(x2-x1)*t, y1+(y2-y1)*t
+    return waypoints[-1]
+
+def motion(index):
+    offset = index * 24
+    samples = {0.0,total,*bounds}
+    samples.update(min(total,b+offset) for b in bounds)
+    samples.update(total*i/180 for i in range(181))
+    parts = []
+    for distance in sorted(samples):
+        x,y = point(distance-offset)
+        parts.append(f'{distance/total*94:.4f}%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
+    x,y = point(total-offset)
+    parts.append(f'100%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
+    return f'@keyframes follow{index}{{{"".join(parts)}}}'
+
+css = [motion(i) for i in range(13)]
+foods, segments = [], []
+for i,(name,color) in enumerate(zip(names,colors)):
+    x,y = waypoints[pickups[i]]
+    consumed = bounds[pickups[i]]/total*94
+    css.append(f'@keyframes food{i}{{0%,{consumed-.15:.2f}%{{opacity:1}}{consumed:.2f}%,97%{{opacity:0}}100%{{opacity:1}}}}')
+    css.append(f'@keyframes reveal{i}{{0%,{consumed-.15:.2f}%{{opacity:0}}{consumed:.2f}%,94%{{opacity:1}}98%,100%{{opacity:0}}}}')
+    foods.append(f'<g class="food" style="animation:food{i} 28s linear infinite"><title>{name}</title><g class="bob" style="animation-delay:-{i*.63:.2f}s"><circle cx="{x}" cy="{y}" r="16" fill="#17242b" stroke="#54707a" stroke-opacity=".65"/><use href="#logo{i}" x="{x-9}" y="{y-9}" width="18" height="18" fill="{color}"/></g></g>')
+    segments.append(f'<g class="collected" style="animation:reveal{i} 28s linear infinite"><g style="animation:follow{i+1} 28s linear infinite"><circle r="14" fill="#121b21" stroke="#a34d55" stroke-width="1"/><use href="#logo{i}" x="-8" y="-8" width="16" height="16" fill="{color}"/></g></g>')
+
+messages = ['DESIGN / BUILD','RESEARCH / TEST','USEFUL BY DESIGN']
+message_svg = ''.join(f'<text class="message m{i}" x="360" y="169" text-anchor="middle">{message}</text>' for i,message in enumerate(messages))
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
 <title id="title">Technologies in my projects</title>
-<desc id="desc">Night sea from above. A solid cargo ship points left with a wake behind it. A black cat police monster patrols outside the hull, grows as it collects twelve technology logos, and wears them as markings. Container lights cycle short messages.</desc>
+<desc id="desc">An overhead night-sea illustration. A solid cargo vessel sits in the centre with a wake behind it. Technology logos float at irregular positions. A small black police cat follows a route outside the vessel, collecting logos that form a growing tail.</desc>
 <!-- Technology logos: Simple Icons, CC0. https://github.com/simple-icons/simple-icons -->
+<!-- Cat silhouette: Pictogrammers Material Design Icons, Apache 2.0. -->
 {logos}
 <defs>
-  <pattern id="sea" width="130" height="36" patternUnits="userSpaceOnUse"><path d="M3 14h22m38-8h12m23 19h18" stroke="#3b5661" stroke-width=".8" stroke-linecap="round" opacity=".36"/></pattern>
-  <pattern id="ribs" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M1 0v8" stroke="#66737a" stroke-opacity=".3" stroke-width=".7"/></pattern>
-  <pattern id="led-pixels" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.2" fill="#f28b7e"/></pattern>
-  <filter id="soft-light" x="-30%" y="-100%" width="160%" height="300%"><feGaussianBlur stdDeviation="2.4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <filter id="police-halo" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="9"/></filter>
+  <symbol id="cat-shape" viewBox="0 0 24 24"><path d="{cat_path}"/></symbol>
+  <linearGradient id="sea-color" x2="0" y2="1"><stop stop-color="#0d1117"/><stop offset=".5" stop-color="#0d1921"/><stop offset="1" stop-color="#0d1117"/></linearGradient>
+  <pattern id="water-lines" width="115" height="38" patternUnits="userSpaceOnUse"><path d="M4 11h22m48 13h31M44 34h10" fill="none" stroke="#537282" stroke-width=".8" opacity=".24"/></pattern>
+  <pattern id="led" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#f08a85"/></pattern>
+  <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
 <style>
-{''.join(food_css)}
-.sea{{animation:water 18s linear infinite}}
+{''.join(css)}
+.water{{animation:water 19s linear infinite}}
 .wake{{animation:wake 5s linear infinite}}
-.boat{{animation:drift 7s ease-in-out infinite;transform-origin:360px 162px}}
-.light{{animation:light 4s ease-in-out infinite}}
-.message{{fill:url(#led-pixels);font:700 16px 'Courier New',monospace;letter-spacing:2px;filter:url(#soft-light);opacity:0;animation:message 12s ease-in-out infinite}}
-.cat-hunt{{animation:patrol 24s linear infinite}}
-.cat-growth{{animation:growth 24s ease-in-out infinite;transform-origin:0 0}}
-.orbit-red{{animation:orbit-red 3.7s ease-in-out infinite;transform-origin:0 0}}
-.orbit-blue{{animation:orbit-blue 4.9s ease-in-out infinite;transform-origin:0 0}}
+.bob{{animation:bob 4s ease-in-out infinite}}
+.head{{animation:follow0 28s linear infinite}}
+.collected,.food{{opacity:0}}
+.scene{{animation:scene 28s linear infinite}}
+.message{{opacity:0;fill:url(#led);font:700 14px 'Courier New',monospace;letter-spacing:1.7px;filter:url(#glow);animation:message 12s ease-in-out infinite}}
 .m1{{animation-delay:4s}}.m2{{animation-delay:8s}}
-@keyframes patrol{{0%{{transform:translate(16px,54px);opacity:0}}5%{{transform:translate(72px,54px);opacity:1}}45%{{transform:translate(632px,54px)}}55%{{transform:translate(632px,270px)}}95%{{transform:translate(72px,270px);opacity:1}}97%{{opacity:0}}100%{{transform:translate(16px,54px);opacity:0}}}}
-@keyframes growth{{0%,5%{{transform:scale(.84)}}45%{{transform:scale(1.05)}}55%{{transform:scale(1.1)}}95%{{transform:scale(1.28)}}100%{{transform:scale(.84)}}}}
-@keyframes orbit-red{{0%,100%{{transform:translate(-27px,-8px);opacity:.45}}40%{{transform:translate(0,-31px);opacity:.9}}70%{{transform:translate(29px,-3px);opacity:.3}}}}
-@keyframes orbit-blue{{0%,100%{{transform:translate(25px,7px);opacity:.35}}35%{{transform:translate(-5px,29px);opacity:.75}}75%{{transform:translate(-29px,3px);opacity:.25}}}}
-@keyframes water{{to{{transform:translateX(-130px)}}}}
-@keyframes wake{{to{{stroke-dashoffset:-36}}}}
-@keyframes drift{{0%,100%{{transform:translateY(0)}}50%{{transform:translateY(-2px)}}}}
-@keyframes light{{0%,100%{{opacity:.45}}50%{{opacity:1}}}}
+.lamp{{animation:lamp 4s ease-in-out infinite}}
+@keyframes water{{to{{transform:translateX(-115px)}}}}
+@keyframes wake{{to{{stroke-dashoffset:-32}}}}
+@keyframes bob{{0%,100%{{transform:translateY(0)}}50%{{transform:translateY(-3px)}}}}
+@keyframes lamp{{0%,100%{{opacity:.5}}50%{{opacity:1}}}}
 @keyframes message{{0%,4%,29%,34%,100%{{opacity:0}}8%,26%{{opacity:1}}}}
-@media(prefers-reduced-motion:reduce){{.sea,.wake,.boat,.light,.message,.cat-hunt,.cat-growth,.orbit-red,.orbit-blue,.food,.badge{{animation:none!important}}.m0{{opacity:1}}.cat-hunt{{transform:translate(72px,54px)}}.badge{{opacity:1}}}}
+@keyframes scene{{0%,94%{{opacity:1}}98%{{opacity:0}}100%{{opacity:1}}}}
+@media(prefers-reduced-motion:reduce){{.water,.wake,.bob,.head,.collected,.food,.scene,.message,.lamp{{animation:none!important}}.food,.scene,.m0{{opacity:1}}.head,.collected{{display:none}}}}
 </style>
-<rect width="720" height="320" fill="#0d1117"/>
-<g class="sea"><rect x="0" width="850" height="320" fill="url(#sea)"/></g>
-<g fill="none" stroke="#7c9aa0" stroke-width="1" stroke-linecap="round" opacity=".4">
-  <path class="wake" d="M594 133C632 126 658 125 698 118M596 162C645 159 667 159 716 160M594 190C632 197 660 202 700 211" stroke-dasharray="4 8"/>
-  <path class="wake" d="M607 144C642 140 666 138 693 134M607 180C640 184 663 187 691 193" stroke-dasharray="2 10"/>
+<rect width="720" height="320" fill="url(#sea-color)"/>
+<g class="water"><rect x="0" width="835" height="320" fill="url(#water-lines)"/></g>
+<!-- Stern wake opens across the right-hand water. -->
+<g fill="none" stroke="#80a9af" stroke-width="1" stroke-linecap="round" opacity=".4">
+  <path class="wake" d="M552 134C607 120 652 111 718 95M552 160C620 160 662 159 719 159M552 186C607 202 653 211 718 228" stroke-dasharray="3 8"/>
+  <path class="wake" d="M571 145C623 137 658 132 719 124M571 175C623 183 658 188 719 196" stroke-dasharray="1 10" opacity=".65"/>
 </g>
-{''.join(icons)}
-<g class="boat">
-  <!-- Solid top-view hull; pointed bow left, wake at the stern on the right. -->
-  <path d="M118 160Q153 115 184 115H572Q590 117 594 132V188Q590 203 572 205H184Q153 205 118 160Z" fill="#252d31" stroke="#8b9b99" stroke-width="1.5"/>
-  <path d="M136 160Q165 128 186 128H578V192H186Q165 192 136 160Z" fill="#1b2227" stroke="#4b5e60"/>
-  <path d="M149 160Q164 146 177 137V183Q164 174 149 160Z" fill="#303b40" stroke="#7e9291"/>
-  <path d="M509 136H565V184H509Z" fill="#30393b" stroke="#667978"/>
-  <path d="M516 143H558V177H516Z" fill="#161e22" stroke="#82918a"/>
-  <path d="M216 127V193M521 127V193" stroke="#69807e" stroke-width="1"/>
-  <!-- Containers, seen from above. -->
-  <rect x="226" y="130" width="94" height="27" rx="2" fill="#343d40" stroke="#677d7c"/>
-  <rect x="325" y="130" width="94" height="27" rx="2" fill="#3b3938" stroke="#946b66"/>
-  <rect x="424" y="130" width="88" height="27" rx="2" fill="#343d40" stroke="#677d7c"/>
-  <rect x="226" y="163" width="94" height="27" rx="2" fill="#343d40" stroke="#677d7c"/>
-  <rect x="325" y="163" width="94" height="27" rx="2" fill="#3b3938" stroke="#946b66"/>
-  <rect x="424" y="163" width="88" height="27" rx="2" fill="#343d40" stroke="#677d7c"/>
-  <path d="M232 135H313M232 141H313M232 147H313M331 135H412M331 141H412M331 147H412M430 135H505M430 141H505M430 147H505M232 169H313M232 175H313M232 181H313M331 169H412M331 175H412M331 181H412M430 169H505M430 175H505M430 181H505" stroke="#aab6ad" stroke-opacity=".17"/>
-  <!-- Inset LED display, flush with the deck. -->
-  <rect x="250" y="149" width="220" height="24" rx="2" fill="#101719" stroke="#734c4a"/>
-  {labels}
-  <circle class="light" cx="575" cy="127" r="2" fill="#e9877d" filter="url(#soft-light)"/>
-  <circle class="light" cx="575" cy="193" r="2" fill="#e9877d" filter="url(#soft-light)"/>
-  <circle class="light" cx="148" cy="160" r="2.5" fill="#e6ba86" filter="url(#soft-light)"/>
+<g class="scene">
+{''.join(foods)}
+<!-- Solid top-view hull, bow at left and squared stern at right. -->
+<g>
+  <path d="M163 160Q185 111 215 111H543Q557 112 558 127V193Q557 208 543 209H215Q185 209 163 160Z" fill="#202c31" stroke="#789097" stroke-width="1.5"/>
+  <path d="M178 160Q194 125 217 124H542V196H217Q194 195 178 160Z" fill="#172127" stroke="#425b62"/>
+  <path d="M184 160L217 137V183Z" fill="#26343a" stroke="#6e8991"/>
+  <path d="M222 124V196M529 124V196" stroke="#67818a" stroke-width="1"/>
+  <rect x="229" y="130" width="96" height="27" rx="2" fill="#2f4145" stroke="#648086"/>
+  <rect x="331" y="130" width="96" height="27" rx="2" fill="#3b383a" stroke="#9a666a"/>
+  <rect x="433" y="130" width="88" height="27" rx="2" fill="#2f4145" stroke="#648086"/>
+  <rect x="229" y="163" width="96" height="27" rx="2" fill="#2f4145" stroke="#648086"/>
+  <rect x="331" y="163" width="96" height="27" rx="2" fill="#3b383a" stroke="#9a666a"/>
+  <rect x="433" y="163" width="88" height="27" rx="2" fill="#2f4145" stroke="#648086"/>
+  <path d="M235 136h84m-84 6h84m-84 6h84m18-12h84m-84 6h84m-84 6h84m18-12h76m-76 6h76m-76 6h76M235 169h84m-84 6h84m-84 6h84m18-12h84m-84 6h84m-84 6h84m18-12h76m-76 6h76m-76 6h76" stroke="#b8cac6" stroke-opacity=".18"/>
+  <rect x="267" y="149" width="186" height="22" rx="2" fill="#10191e" stroke="#9b565c"/>
+  {message_svg}
+  <path d="M532 133h19v54h-19Z" fill="#2e3c40" stroke="#6f888a"/>
+  <path d="M536 139h11v18h-11Z" fill="#131e23" stroke="#829b9a"/>
+  <circle class="lamp" cx="548" cy="123" r="2" fill="#e67d79" filter="url(#glow)"/>
+  <circle class="lamp" cx="548" cy="197" r="2" fill="#e67d79" filter="url(#glow)"/>
+  <circle class="lamp" cx="188" cy="160" r="2" fill="#edbc8a" filter="url(#glow)"/>
 </g>
-<!-- The patrol path stays outside the hull and reaches each logo in order. -->
-<g class="cat-hunt">
-  <circle r="28" fill="#b43e46" opacity=".22" filter="url(#police-halo)"/>
-  <g class="orbit-red"><circle r="7" fill="#d64950" opacity=".3" filter="url(#police-halo)"/><circle r="2" fill="#ed777e"/></g>
-  <g class="orbit-blue"><circle r="6" fill="#5a8eaa" opacity=".22" filter="url(#police-halo)"/><circle r="1.7" fill="#82b0be"/></g>
-  <g class="cat-growth">
-    <rect x="-29" y="15" width="58" height="24" rx="10" fill="#11171a" stroke="#a95052" stroke-width=".8"/>
-    {''.join(badges)}
-    <path d="M-16-7l-2-17 11 6Q0-21 7-18l11-6-2 17q5 12-2 19-5 5-14 5t-14-5q-7-7-2-19Z" fill="#0b0d10" stroke="#bd6966" stroke-width="1.2"/>
-    <path d="M-14-17l-1-5 5 3zm28 0 1-5-5 3z" fill="#cc7174"/>
-    <path d="M-10-2l6 1m8-1 6-1" stroke="#f0d4cc" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M-3 5h6l-3 3z" fill="#ed777e"/>
-    <path d="M-6 9Q0 15 6 9" fill="none" stroke="#cf6364" stroke-width="1.2"/>
-    <path d="M-10-13Q0-20 10-13M-13-11H13" fill="none" stroke="#bb5e5b" stroke-width="1.2"/>
-    <circle cx="0" cy="-16" r="1.8" fill="#e9877d"/>
-  </g>
+<!-- Each eaten logo becomes a segment of the cat's tail. -->
+{''.join(reversed(segments))}
+<g class="head">
+  <circle r="23" fill="#a6404d" opacity=".17" filter="url(#glow)"/>
+  <use href="#cat-shape" x="-24" y="-24" width="48" height="48" fill="#080b0e" stroke="#b45862" stroke-width=".35"/>
+  <circle cx="-6" cy="0" r="3.6" fill="#e7b84d"/><circle cx="6" cy="0" r="3.6" fill="#e7b84d"/>
+  <circle cx="-5" cy="-.2" r="1.9" fill="#0a0c0d"/><circle cx="7" cy="-.2" r="1.9" fill="#0a0c0d"/>
+  <path d="M-2 5h4L0 8Z" fill="#e98991"/>
+  <path d="M-11-12Q0-18 11-12L10-9H-10Z" fill="#9d3745" stroke="#e5848b" stroke-width=".8"/>
+  <circle cx="0" cy="-12" r="1.4" fill="#f2c59c"/>
+</g>
 </g>
 </svg>'''
 ET.fromstring(svg)
 TARGET.write_text(svg, encoding='utf-8')
-print('Generated top-view cargo ship scene with 12 embedded technology logos.')
+print(f'Generated sea scene: {len(foods)} floating logos, {len(segments)} growing tail segments.')
