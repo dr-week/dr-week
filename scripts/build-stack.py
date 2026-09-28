@@ -16,13 +16,15 @@ STACK = [
 # perimeter to the same entry point, keeping every body segment on one route.
 ROUTE = [
     (48,64),(240,64),(240,112),(528,112),(528,64),(672,64),(672,160),
-    (576,160),(576,208),(384,208),(384,160),(192,160),(48,160),
-    (48,256),(192,256),(192,208),(336,208),(480,208),(480,256),(672,256),
+    (576,160),(576,208),(384,208),(384,136),(288,136),(288,184),
+    (192,184),(48,184),(48,256),(192,256),(192,208),(336,208),(480,208),(480,256),(672,256),
     (752,256),(752,304),(760,304),(760,16),(48,16),(48,64),
 ]
 PICKUPS = [1,2,3,4,5,6,7,8,9,10,11,12]
 LOOP_SECONDS = 20
-MOVE_END = 78
+MOVE_END = 82
+PICKUP_LAPS = 2
+RESPAWN_AFTER = [4,5,4,5,4,5,4,5,4,5,4,5]
 STEP = 28  # pixels between body segments
 
 
@@ -58,19 +60,32 @@ for i, (name, slug, color) in enumerate(STACK):
     defs.append(f'<symbol id="logo{i}" viewBox="0 0 24 24">{paths}</symbol>')
     d = pickup_distance(i)
     x, y = point(d)
-    at = d / ROUTE_LENGTH * MOVE_END
-    css.append(f'@keyframes food{i} {{0%,{at-0.35:.3f}%{{opacity:1}} {at:.3f}%,100%{{opacity:1}}}}')
+    at = d / (ROUTE_LENGTH * PICKUP_LAPS) * MOVE_END
+    event_count = len(STACK) * PICKUP_LAPS
+    event_times = [(lap * ROUTE_LENGTH + pickup_distance(j % len(STACK))) / (ROUTE_LENGTH * PICKUP_LAPS) * MOVE_END
+                   for lap in range(PICKUP_LAPS) for j in range(len(STACK))]
+    previous_respawn = i - len(STACK) + RESPAWN_AFTER[i]
+    food_frames = [(0, 0 if previous_respawn >= 0 else 1)]
+    if previous_respawn >= 0:
+        food_frames.append((event_times[previous_respawn], 1))
+    for event in (i, i + len(STACK)):
+        food_frames.append((event_times[event], 0))
+        respawn_event = event + RESPAWN_AFTER[i]
+        if respawn_event < event_count:
+            food_frames.append((event_times[respawn_event], 1))
+    food_frames.sort()
+    css.append(f'@keyframes food{i} {{{"".join(f"{t:.3f}%{{opacity:{v}}}" for t,v in food_frames)}100%{{opacity:0}}}}')
     food.append(f'<g class="food" style="animation:food{i} {LOOP_SECONDS}s linear infinite"><title>{name}</title><rect x="{x-20}" y="{y-20}" width="40" height="40" rx="12" fill="#161b22" stroke="#30363d"/><use href="#logo{i}" x="{x-12}" y="{y-12}" width="24" height="24" fill="#{color}"/></g>')
     reveal = max(0, at - 1.6)
     css.append(f'@keyframes reveal{i} {{0%,{reveal:.3f}%{{opacity:0}} {reveal+0.2:.3f}%,{MOVE_END}%{{opacity:1}} 100%{{opacity:0}}}}')
-    body.append(f'<g style="animation:reveal{i} {LOOP_SECONDS}s linear infinite"><g class="segment" style="animation:move{i+1} {LOOP_SECONDS}s linear infinite"><circle r="19" fill="#253a36" stroke="#658c7b"/><use href="#logo{i}" x="-11" y="-11" width="22" height="22" fill="#{color}"/></g></g>')
+    body.append(f'<g style="animation:reveal{i} {LOOP_SECONDS}s linear infinite"><g class="segment" style="animation:move{i+1} {LOOP_SECONDS}s linear infinite"><rect x="-16" y="-16" width="32" height="32" rx="7" fill="#253a36" stroke="#658c7b"/><use href="#logo{i}" x="-11" y="-11" width="22" height="22" fill="#{color}"/></g></g>')
 
 # Sample shared route distance. The common closed perimeter makes the loop seamless.
 for i in range(13):
     offset = i * STEP
     frames = []
     for pct in range(MOVE_END + 1):
-        x, y = point(pct / MOVE_END * ROUTE_LENGTH - offset)
+        x, y = point(pct / MOVE_END * ROUTE_LENGTH * PICKUP_LAPS - offset)
         frames.append(f'{pct}%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
     x, y = point(-offset)
     frames.append(f'100%{{transform:translate({x:.2f}px,{y:.2f}px)}}')
@@ -84,20 +99,19 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 <style>
 {''.join(css)}
 .scene{{animation:scene {LOOP_SECONDS}s ease-in-out infinite}}
-.message{{opacity:0;animation:message {LOOP_SECONDS}s ease-in-out infinite}}
+
 @keyframes scene{{0%,100%{{opacity:0}}4%{{opacity:1}}90%{{opacity:1}}96%{{opacity:0}}}}
-@keyframes message{{0%,64%,100%{{opacity:0}}68%{{opacity:1}}88%{{opacity:1}}94%{{opacity:0}}}}
-@media(prefers-reduced-motion:reduce){{.scene,.message,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
+
+@media(prefers-reduced-motion:reduce){{.scene,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
 </style>
 <rect width="720" height="320" fill="#0d1117"/>
 <path d="M48 64H672V160H48V256H672" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="2 10"/>
 <g class="scene">
 {''.join(food)}
 <g class="snake">{''.join(reversed(body))}
-<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><circle r="20" fill="#aac0ad"/><circle cx="-5" cy="-5" r="2.5" fill="#0d1117"/><circle cx="5" cy="-5" r="2.5" fill="#0d1117"/></g>
+<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><rect x="-17" y="-17" width="34" height="34" rx="8" fill="#aac0ad" stroke="#dbe8dc" stroke-width="2"/><rect x="-8" y="-5" width="4" height="4" rx="1" fill="#0d1117"/><rect x="4" y="-5" width="4" height="4" rx="1" fill="#0d1117"/></g>
 </g></g>
-<text class="message" x="360" y="151" text-anchor="middle" fill="#f0c84b" font-family="monospace" font-size="12" letter-spacing="2">TECH I USE TO BUILD</text>
-<text class="message" x="360" y="174" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9" letter-spacing="1">SOFTWARE / DESIGN / PLAY</text>
+<g class="marquee"><rect x="270" y="140" width="180" height="40" rx="8" fill="#111820" stroke="#d5a642" stroke-width="1.5"/><path d="M278 147h8m-8 26h8m164-26h-8m8 26h-8" stroke="#d5a642" stroke-width="2"/><text x="360" y="165" text-anchor="middle" fill="#f0c84b" font-family="monospace" font-size="18" font-weight="700" letter-spacing="3">I NEVER STOP</text></g>
 </svg>'''
 ET.fromstring(svg)
 (ROOT / 'assets' / 'stack-snake.svg').write_text(svg, encoding='utf-8')

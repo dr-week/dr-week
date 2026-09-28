@@ -18,7 +18,7 @@ I like interfaces that make the next step obvious and details that serve a purpo
 
 ### Technologies in my projects
 
-<img src="assets/stack-snake.svg?v=1" width="100%" alt="Animated snake collecting TypeScript, JavaScript, Vue, Python, Rust, Git, React, Three.js, Vite, Node.js, HTML and CSS logos." />
+<img src="assets/stack-snake.svg?v=2" width="100%" alt="Animated snake collecting TypeScript, JavaScript, Vue, Python, Rust, Git, React, Three.js, Vite, Node.js, HTML and CSS logos." />
 
 <br />
 
@@ -72,3 +72,4 @@ Right now, that means stronger engineering, better testing, and choosing which i
 ---
 
 <a href="https://github.com/dr-week"><img src="assets/github.svg" width="18" height="18" alt="" /></a>&nbsp; [All repositories](https://github.com/dr-week?tab=repositories)
+
