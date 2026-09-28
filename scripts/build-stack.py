@@ -85,8 +85,8 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 {''.join(css)}
 .scene{{animation:scene {LOOP_SECONDS}s ease-in-out infinite}}
 .message{{opacity:0;animation:message {LOOP_SECONDS}s ease-in-out infinite}}
-@keyframes scene{{0%,82%{{opacity:1}}86%,99%{{opacity:0}}100%{{opacity:1}}}}
-@keyframes message{{0%,82%,100%{{opacity:0}}85%,91%{{opacity:1}} 95%{{opacity:0}}}}
+@keyframes scene{{0%,92%{{opacity:1}}96%,99%{{opacity:0}}100%{{opacity:1}}}}
+@keyframes message{{0%,64%,100%{{opacity:0}}68%{{opacity:1}}88%{{opacity:1}}94%{{opacity:0}}}}
 @media(prefers-reduced-motion:reduce){{.scene,.message,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
 </style>
 <rect width="720" height="320" fill="#0d1117"/>
