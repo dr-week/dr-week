@@ -93,14 +93,15 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 <path d="M48 64H672V160H48V256H672" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="2 10"/>
 <g class="scene">
 {''.join(food)}
-<text class="message" x="360" y="151" text-anchor="middle" fill="#f0c84b" font-family="monospace" font-size="12" letter-spacing="2">TECH I USE TO BUILD</text>
-<text class="message" x="360" y="174" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9" letter-spacing="1">SOFTWARE / DESIGN / PLAY</text>
 <g class="snake">{''.join(reversed(body))}
 <g style="animation:move0 {LOOP_SECONDS}s linear infinite"><circle r="20" fill="#aac0ad"/><circle cx="-5" cy="-5" r="2.5" fill="#0d1117"/><circle cx="5" cy="-5" r="2.5" fill="#0d1117"/></g>
 </g></g>
+<text class="message" x="360" y="151" text-anchor="middle" fill="#f0c84b" font-family="monospace" font-size="12" letter-spacing="2">TECH I USE TO BUILD</text>
+<text class="message" x="360" y="174" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9" letter-spacing="1">SOFTWARE / DESIGN / PLAY</text>
 </svg>'''
 ET.fromstring(svg)
 (ROOT / 'assets' / 'stack-snake.svg').write_text(svg, encoding='utf-8')
 print(f'Generated stack-snake.svg with 12 logos and a {LOOP_SECONDS}-second loop.')
+
 
 
