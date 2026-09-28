@@ -21,8 +21,8 @@ ROUTE = [
     (752,256),(752,304),(760,304),(760,16),(48,16),(48,64),
 ]
 PICKUPS = [1,2,3,4,5,6,7,8,9,10,11,12]
-LOOP_SECONDS = 26
-MOVE_END = 88
+LOOP_SECONDS = 20
+MOVE_END = 78
 STEP = 28  # pixels between body segments
 
 
@@ -83,10 +83,10 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 <defs>{''.join(defs)}</defs>
 <style>
 {''.join(css)}
-.scene{{animation:scene {LOOP_SECONDS}s linear infinite}}
-.message{{opacity:0;animation:message {LOOP_SECONDS}s linear infinite}}
-@keyframes scene{{0%,96%{{opacity:1}}99%,99.5%{{opacity:0}}100%{{opacity:1}}}}
-@keyframes message{{0%,96%,100%{{opacity:0}}97%,99%{{opacity:1}}}}
+.scene{{animation:scene {LOOP_SECONDS}s ease-in-out infinite}}
+.message{{opacity:0;animation:message {LOOP_SECONDS}s ease-in-out infinite}}
+@keyframes scene{{0%,82%{{opacity:1}}86%,99%{{opacity:0}}100%{{opacity:1}}}}
+@keyframes message{{0%,82%,100%{{opacity:0}}85%,91%{{opacity:1}} 95%{{opacity:0}}}}
 @media(prefers-reduced-motion:reduce){{.scene,.message,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
 </style>
 <rect width="720" height="320" fill="#0d1117"/>
@@ -101,6 +101,6 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 </svg>'''
 ET.fromstring(svg)
 (ROOT / 'assets' / 'stack-snake.svg').write_text(svg, encoding='utf-8')
-print('Generated stack-snake.svg with 12 logos and a 26-second loop.')
+print(f'Generated stack-snake.svg with 12 logos and a {LOOP_SECONDS}-second loop.')
 
 
