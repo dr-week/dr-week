@@ -94,10 +94,10 @@ for i, (name, slug, color) in enumerate(STACK):
     food.append(f'<g class="food" style="animation:food{i} {LOOP_SECONDS}s linear infinite"><title>{name}</title><rect x="{x-20}" y="{y-20}" width="40" height="40" rx="8" fill="#171914" stroke="#55594c" stroke-width="1.2"/><use href="#logo{i}" x="{x-12}" y="{y-12}" width="24" height="24" fill="#{color}"/></g>')
     reveal = min(MOVE_END, at + 0.55)  # grow only after this snack is eaten
     css.append(f'@keyframes reveal{i} {{0%,{reveal:.3f}%{{opacity:0}} {reveal+0.2:.3f}%,{MOVE_END}%{{opacity:1}} 100%{{opacity:0}}}}')
-    body.append(f'<g style="animation:reveal{i} {LOOP_SECONDS}s linear infinite"><g class="segment" style="animation:move{i+1} {LOOP_SECONDS}s linear infinite"><rect x="-16" y="-16" width="32" height="32" rx="7" fill="#596650" stroke="#a9ad91"/><use href="#logo{i}" x="-11" y="-11" width="22" height="22" fill="#{color}"/></g></g>')
+
 
 # Sample shared route distance. The common closed perimeter makes the loop seamless.
-for i in range(13):
+for i in range(1):
     offset = i * STEP
     frames = []
     for pct in range(MOVE_END + 1):
@@ -116,9 +116,14 @@ for i, phrase in enumerate(COPY):
     copy_css.append(f"@keyframes copy{i}{{0%,{start:.3f}%{{opacity:0;animation-timing-function:cubic-bezier(.22,1,.36,1)}}{start+fade_pct:.3f}%{{opacity:1}}{end-fade_pct:.3f}%{{opacity:1;animation-timing-function:cubic-bezier(.4,0,1,1)}}{end:.3f}%,100%{{opacity:0}}}}")
     copy_markup.append(f"<text class=\"copy copy{i}\" x=\"360\" y=\"166\" text-anchor=\"middle\">{phrase}</text>")
 
+sea = ''.join(
+    f'<path class="flow {"f2" if i % 3 == 1 else "f3" if i % 3 == 2 else ""}" d="M0 {40 + i * 18}h720" style="animation-delay:-{(i * 0.37) % 6:.2f}s"/>'
+    for i in range(14)
+)
+
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
 <title id="title">Technologies in my projects</title>
-<desc id="desc">A retro arcade snake gathers the technologies I use: TypeScript, JavaScript, Vue, Python, Rust, Git, React, Three.js, Vite, Node.js, HTML and CSS.</desc>
+<desc id="desc">A black cat police captain patrols beside a cargo barge. LED messages cycle over the technologies used in my projects.</desc>
 <!-- Technology logos: Simple Icons, CC0. https://github.com/simple-icons/simple-icons -->
 <defs>{''.join(defs)}</defs>
 <style>
@@ -126,7 +131,10 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 {''.join(copy_css)}
 .scene{{animation:scene {LOOP_SECONDS}s ease-in-out infinite}}
 .head{{animation:idle 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}}
-.copy{{opacity:0;fill:#e5dfcc;font:600 13px monospace;letter-spacing:1.5px;animation-duration:{COPY_CYCLE}s;animation-timing-function:linear;animation-iteration-count:infinite}}
+.cat-tail{{animation:tail 1.5s ease-in-out infinite;transform-box:fill-box;transform-origin:right center}}
+.siren-red{{animation:siren-red 1.5s steps(1,end) infinite}}
+.siren-blue{{animation:siren-blue 1.5s steps(1,end) infinite}}
+.copy{{opacity:0;fill:#ff7468;font:700 11px monospace;letter-spacing:1.1px;filter:url(#led-glow);animation-duration:{COPY_CYCLE}s;animation-timing-function:linear;animation-iteration-count:infinite}}
 .copy0{{animation-name:copy0}}
 .copy1{{animation-name:copy1}}
 .copy2{{animation-name:copy2}}
@@ -142,24 +150,40 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewB
 @keyframes glow{{0%,100%{{opacity:.12;transform:scale(.92)}}50%{{opacity:.36;transform:scale(1.08)}}}}
 @keyframes rain{{0%{{transform:translateY(-10px);opacity:0}}20%{{opacity:.2}}80%{{opacity:.16}}100%{{transform:translateY(12px);opacity:0}}}}
 @keyframes idle{{0%,100%{{transform:translateY(0)}}50%{{transform:translateY(-1px)}}}}
+@keyframes tail{{0%,100%{{transform:rotate(-5deg)}}50%{{transform:rotate(7deg)}}}}
+@keyframes siren-red{{0%,49%{{opacity:1}}50%,100%{{opacity:.18}}}}
+@keyframes siren-blue{{0%,49%{{opacity:.18}}50%,100%{{opacity:1}}}}
+.flow{{fill:none;stroke:#66818a;stroke-width:.8;stroke-dasharray:1 15 5 27;opacity:.27;animation:current 6s linear infinite}}
+.flow.f2{{animation-duration:3s;animation-delay:-1s;opacity:.18}}
+.flow.f3{{animation-duration:9s;animation-delay:-5s;opacity:.21}}
+@keyframes current{{to{{stroke-dashoffset:-48}}}}
+.wake{{fill:none;stroke:#a9b6ae;stroke-width:1;stroke-dasharray:2 8;opacity:.45;animation:wake 3s linear infinite}}
+@keyframes wake{{0%,100%{{stroke-dashoffset:0;opacity:.2}}50%{{stroke-dashoffset:-24;opacity:.55}}}}
 
 @keyframes scene{{0%,100%{{opacity:0}}4%{{opacity:1}}90%{{opacity:1}}96%{{opacity:0}}}}
 
-@media(prefers-reduced-motion:reduce){{.scene,.food{{animation:none!important}}.segment{{animation:none!important}}.snake{{display:none}}}}
+@media(prefers-reduced-motion:reduce){{.scene,.food,.flow,.wake,.cat-tail,.siren-red,.siren-blue,.glow,.rain,.copy{{animation:none!important}}}}
 </style>
-<rect width="720" height="320" fill="#11120f"/>
-<defs><filter id="soft-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="12"/></filter><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3f0e5" stop-opacity=".82"/><stop offset=".48" stop-color="#d7ded0" stop-opacity=".58"/><stop offset="1" stop-color="#aab8ac" stop-opacity=".72"/></linearGradient><filter id="head-shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset dy="1"/><feComponentTransfer><feFuncA type="linear" slope=".22"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter><pattern id="grain" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M2 8h5m20 11h4M11 31h3" stroke="#d8d1bd" stroke-width=".5" opacity=".12"/><circle cx="17" cy="5" r=".5" fill="#d8d1bd" opacity=".18"/><circle cx="31" cy="29" r=".5" fill="#d8d1bd" opacity=".14"/></pattern></defs>
+<rect width="720" height="320" fill="#0d1117"/><rect x=".5" y=".5" width="719" height="319" fill="none" stroke="#0d1117" stroke-width="1"/>
+<defs><filter id="led-glow" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="2.2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="soft-glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="12"/></filter><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3f0e5" stop-opacity=".82"/><stop offset=".48" stop-color="#d7ded0" stop-opacity=".58"/><stop offset="1" stop-color="#aab8ac" stop-opacity=".72"/></linearGradient><filter id="head-shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/><feOffset dy="1"/><feComponentTransfer><feFuncA type="linear" slope=".22"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter><pattern id="grain" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M2 8h5m20 11h4M11 31h3" stroke="#d8d1bd" stroke-width=".5" opacity=".12"/><circle cx="17" cy="5" r=".5" fill="#d8d1bd" opacity=".18"/><circle cx="31" cy="29" r=".5" fill="#d8d1bd" opacity=".14"/></pattern></defs>
 <rect width="720" height="320" fill="url(#grain)" opacity=".42"/>
-<path d="M48 64H672V160H48V256H672" fill="none" stroke="#33352d" stroke-width="1" stroke-dasharray="1 12"/>
-<path d="M40 32h20M40 32v20M680 32h-20M680 32v20M40 288h20M40 288v-20M680 288h-20M680 288v-20" fill="none" stroke="#777762" stroke-width="1" opacity=".65"/>
+{sea}
 <ellipse class="glow g1" cx="360" cy="160" rx="105" ry="35" fill="#6c9b75"/><ellipse class="glow g2" cx="324" cy="150" rx="68" ry="22" fill="#bd765f"/><ellipse class="glow g3" cx="402" cy="173" rx="72" ry="24" fill="#89aa92"/>
 <text class="rain" x="285" y="125">ｱ 0 ｶ 1 ｻ 0 ﾀ</text><text class="rain r2" x="410" y="195">ﾅ 1 ﾊ 0 ﾏ 1</text><text class="rain r3" x="300" y="205">0 ﾔ 1 ﾗ 0 ｱ</text>
 <g class="scene">
-{''.join(food)}
-<g class="snake">{''.join(reversed(body))}
-<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><g class="head"><rect x="-17" y="-17" width="34" height="34" rx="7" fill="url(#glass)" stroke="#f0ead7" stroke-opacity=".9" stroke-width="1.2" filter="url(#head-shadow)"/><path d="M-12-11h24" stroke="#fff" stroke-opacity=".62" stroke-width="1"/><path d="M-12-7l8 2-1 2-8-1zm24 0-8 2 1 2 8-1z" fill="#302a28"/><path d="M-12-4l9 2-2 6-7-2zm24 0L3-2l2 6 7-2z" fill="#faf1dc"/><path d="M-7-2l4 1-1 4-3-1zm14 0L3-1l1 4 3-1z" fill="#a64f42"/><path d="M-7 8q7 3 14 0" fill="none" stroke="#75463e" stroke-width="1.3" stroke-linecap="round"/></g></g>
-</g></g>
-<g class="marquee"><rect x="264" y="136" width="192" height="48" rx="10" fill="#17201b" fill-opacity=".76" stroke="#a6b7a1" stroke-opacity=".58" stroke-width="1"/><path d="M274 144h172" stroke="#fff" stroke-opacity=".24"/><text x="360" y="151" text-anchor="middle" fill="#a65d49" font-family="monospace" font-size="6" letter-spacing="2">DR.WEEK / TECH &amp; MAKING</text>{''.join(copy_markup)}</g>
+{''.join(food)}</g>
+<g class="wake"><path d="M208 180Q158 164 105 176M210 190Q151 188 76 201M214 199Q158 210 110 218"/></g>
+<g class="barge"><path d="M206 190H516L488 216H236Z" fill="#272a2a" stroke="#b24e48" stroke-width="1.4"/><path d="M221 198H504M233 207H496" stroke="#ba6254" stroke-opacity=".62" stroke-width="1"/>
+<path d="M488 190V155L506 155V190M493 160h8v7h-8zm0 11h8v7h-8z" fill="#232d2e" stroke="#82918a" stroke-width="1"/>
+<path d="M497 155V125M497 128h21l-7 7h-14" fill="none" stroke="#b24e48" stroke-width="1.2"/>
+<g class="container"><rect x="222" y="137" width="65" height="51" rx="2" fill="#263235" stroke="#70827c"/><path d="M230 140v44m8-44v44m8-44v44m8-44v44m8-44v44m8-44v44m8-44v44" stroke="#9caaa0" stroke-opacity=".24"/></g>
+<g class="container"><rect x="291" y="132" width="65" height="56" rx="2" fill="#30302d" stroke="#958579"/><path d="M299 135v50m8-50v50m8-50v50m8-50v50m8-50v50m8-50v50" stroke="#cab8a1" stroke-opacity=".22"/></g>
+<g class="container"><rect x="360" y="132" width="65" height="56" rx="2" fill="#302b2b" stroke="#a85b50"/><path d="M368 135v50m8-50v50m8-50v50m8-50v50m8-50v50m8-50v50" stroke="#d58a7a" stroke-opacity=".25"/></g>
+<g class="container"><rect x="429" y="137" width="65" height="51" rx="2" fill="#29302f" stroke="#82918a"/><path d="M437 140v44m8-44v44m8-44v44m8-44v44m8-44v44m8-44v44" stroke="#bdc4b5" stroke-opacity=".23"/></g>
+<rect x="250" y="150" width="220" height="31" rx="4" fill="#111719" fill-opacity=".84" stroke="#ba6254" stroke-opacity=".68"/><text x="360" y="147" text-anchor="middle" fill="#b77969" font-family="monospace" font-size="5.5" letter-spacing="1.5">CARGO / TECHNOLOGY / 01</text>{''.join(copy_markup)}
+<path d="M216 189q-27-6-56-2m47 13q-40 0-74 12m105 7h191" fill="none" stroke="#bdc8bc" stroke-width=".8" stroke-dasharray="2 7" opacity=".4"/>
+</g>
+<g style="animation:move0 {LOOP_SECONDS}s linear infinite"><g class="head"><path class="cat-tail" d="M-12 10Q-25 16-22 5Q-20 0-16 3" fill="none" stroke="#151619" stroke-width="5" stroke-linecap="round"/><path d="M-15-3l-2-15 11 7Q0-15 6-11l11-7-2 16q4 9-2 17-5 6-14 6t-14-6q-5-8 0-18z" fill="#111216" stroke="#a65d49" stroke-width="1.2"/><path d="M-13-7l-2-8 7 5zm26 0 2-8-7 5z" fill="#cb776e"/><path d="M-11-3l8 1-2 4-6-1zm22 0L3-2l2 4 6-1z" fill="#f4e6d5"/><path d="M-7-2l3 1-1 2-3-1zm14 0L4-1l1 2 3-1z" fill="#a94340"/><path d="M-2 5h4l-2 3z" fill="#ef7180"/><path d="M-2 8q2 3 4 0" fill="none" stroke="#ead6ca" stroke-width=".8"/><path d="M-10-12q2-8 10-8t10 8H-10z" fill="#202c39" stroke="#b94d49" stroke-width="1"/><path d="M-11-11h22" stroke="#d45b50" stroke-width="2"/><path d="M-2-19h5" stroke="#e0b36e" stroke-width="2"/><circle class="siren-red" cx="-4" cy="-19" r="2.2" fill="#ff534f"/><circle class="siren-blue" cx="4" cy="-19" r="2.2" fill="#83bed0"/><path d="M8 8l4 2-4 4-4-2z" fill="#c6a35c" stroke="#eee0bd" stroke-width=".5"/></g></g>
 </svg>'''
 ET.fromstring(svg)
 (ROOT / 'assets' / 'stack-snake.svg').write_text(svg, encoding='utf-8')
